@@ -1,0 +1,24 @@
+{% if user_cart %}
+
+    {% for i in user_cart %}
+        Продукт: {{ i.user_product }} <br>
+        Общая стоимость: {{ i.total_for_product }}<br>
+        <form action="/delete-product/{{ i.id }}" method="POST">
+            {% csrf_token %}
+            Количество:<input type="number" min="1" max="i.user_product.product_count" value="{{ i.quantity }}">
+            <button>Удалить</button>
+        </form>
+<hr>
+    {% endfor %}
+    <a href="/">Купить ещё</a>
+    <form action="/order" method="post">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Введите имя пользователя"><br>
+          <input type="text" name="phone_number" placeholder="Введите номер телефона"><br>
+          <input type="text" name="adress" placeholder="Введите свой адрес"><br>
+          <button>Оформить заказ</button>
+    </form>
+{% else %}
+    Ваша корзина пуста <br>
+    <a href="/">Купить продукт</a>
+{% endif %}
